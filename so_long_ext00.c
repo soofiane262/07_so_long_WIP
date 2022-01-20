@@ -26,19 +26,19 @@ void	ft_init_integers(int *i, int *j, int *k, int *l)
 	*l = 0;
 }
 
-void	ft_check_map(t_params *param, char *map_file)
+void	ft_check_map(t_map *map, char *map_file)
 {
 	int		len[2];
 
-	param->map = ft_make_map(map_file);
-	len[0] = (int)ft_strlen(param->map[0]);
+	map->map = ft_make_map(map_file);
+	len[0] = (int)ft_strlen(map->map[0]);
 	len[1] = 0;
-	ft_check_walls(param->map, len);
-	ft_check_chars(param->map, len);
-	while (param->map[len[1]])
+	ft_check_walls(map->map, len);
+	ft_check_chars(map->map, len);
+	while (map->map[len[1]])
 		len[1]++;
-	param->map_width = len[0];
-	param->map_height = len[1];
+	map->width = len[0]*70;
+	map->height = len[1]*70;
 }
 
 void	ft_check_chars(char **map, int *len)

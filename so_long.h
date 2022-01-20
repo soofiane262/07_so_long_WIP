@@ -22,17 +22,31 @@ typedef struct	s_params
 	void	*mlx_ptr;
 	void	*win_ptr;
 	void	*font_ptr;
-	char	**map;
-	// int		map_width;
-	// int		map_width;
-	int		map_width;
-	int		map_height;
+	void	*laika_ptr;
 }			t_params;
-int		ft_destroy_x(t_params *param);
-int		ft_key_hook(int key, t_params *param);
-int		ft_mouse_hook(int button, int x, int y, t_params *param);
+typedef struct	s_map
+{
+	char	**map;
+	int		width;
+	int		height;
+}			t_map;
+typedef struct	s_img
+{
+	int		font_w;
+	int		font_h;
+	int		laika_w;
+	int		laika_h;
+}			t_img;
+typedef struct	s_all
+{
+	t_params	*param;
+	t_img		*img;
+	t_map		*map;
+}			t_all;
+int	ft_destroy_x(t_all *all);
+int	ft_key_hook(int key, t_all *all);
 void	ft_error(void);
-void	ft_check_map(t_params *param, char *map_file);
+void	ft_check_map(t_map *map, char *map_file);
 void	ft_check_walls(char **map, int *len);
 void	ft_check_chars(char **map, int *len);
 char	**ft_make_map(char *map_file);
