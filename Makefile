@@ -18,7 +18,8 @@ LIB		=	libso_long.a
 
 HDFL	=	so_long.h
 
-SRCS	=	so_long_ext00.c
+SRCS	=	so_long_ext00.c so_long_ext01.c so_long_ext02.c so_long_ext03.c\
+			so_long_ext04.c
 
 OBJS	=	$(SRCS:%.c=%.o)
 
@@ -33,12 +34,12 @@ $(NAME): $(OBJS) $(PGM) $(HDFL)
 	@(cd mlx/; make;)
 	@$(CC) $(CFLAGS) -c $(SRCS) -I $(HDFL)
 	@$(AR) $(LIB) $(OBJS)
-	@$(CC) $(CFLAGS) $(PGM) -L./mlx/ -lmlx -framework OpenGL -framework AppKit -L./libft/ -lft -L. -lso_long -o $(NAME)
+	@$(CC) $(CFLAGS) $(PGM) -L./mlx -lmlx -framework OpenGL -framework AppKit -L./libft -lft -L. -lso_long -o $(NAME)
 
 all:	$(NAME)
 
 norm:
-	@norminette $(PGM) $(SRCS) $(HDFL)
+	@norminette $(PGM) $(SRCS) $(HDFL) libft/ > norm
 
 clean:
 	@(cd libft/; make clean;)
@@ -51,4 +52,4 @@ fclean:	clean
 
 re:	fclean all
 
-.PHONY:	all clean fclean re
+.PHONY:	all norm clean fclean re

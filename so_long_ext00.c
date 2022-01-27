@@ -12,192 +12,110 @@
 
 #include "so_long.h"
 
-void	ft_error(void)
+void	ft_exit_position(t_all *all)
 {
-	ft_putendl_fd("Error", 2);
-	exit(0);
-}
+	int	i[2];
 
-void	ft_init_integers(int *i, int *j, int *k, int *l)
-{
-	*i = 0;
-	*j = 0;
-	*k = 0;
-	*l = 0;
-}
-
-void	ft_check_map(t_map *map, char *map_file)
-{
-	int		len[2];
-
-	map->map = ft_make_map(map_file);
-	len[0] = (int)ft_strlen(map->map[0]);
-	len[1] = 0;
-	ft_check_walls(map->map, len);
-	ft_check_chars(map->map, len);
-	while (map->map[len[1]])
-		len[1]++;
-	map->width = len[0]*70;
-	map->height = len[1]*70;
-}
-
-void	ft_check_chars(char **map, int *len)
-{
-	int		i;
-	int		j;
-	int		p;
-	char	*ref;
-	char	*trimmed;
-
-	ref = "01CEP";
-	i = 1;
-	p = 0;
-	while (i < len[1] - 1)
+	i[1] = 0;
+	while (all->map->map[++i[1]])
 	{
-		j = 0;
-		while (++j < len[0] - 1)
-			if (map[i][j] == 'P')
-				p++;
-		trimmed = ft_strtrim(map[i], ref);
-		if (trimmed[0])
+		i[0] = 0;
+		while (all->map->map[i[1]][++i[0]])
 		{
-			free(trimmed);
-			ft_map_error(map, 0);
+			if (all->map->map[i[1]][i[0]] == 'E')
+			{
+				all->map->exit[0] = i[0];
+				all->map->exit[1] = i[1];
+				return ;
+			}
 		}
-		free(trimmed);
-		i++;
 	}
-	if (p != 1)
-		ft_map_error(map, 0);
 }
 
-void	ft_check_walls(char **map, int *len)
+void	ft_put_collec(t_all *all)
 {
-	int	i;
+	int	i[2];
 
-	while (map[++len[1]])
-		if (ft_strlen(map[len[1]]) != ft_strlen(map[len[1] - 1]))
-			ft_map_error(map, 0);
-	i = -1;
-	while (++i < len[0])
-		if (map[0][i] != '1')
-			ft_map_error(map, 0);
-	i = -1;
-	while (++i < len[0])
-		if (map[len[1] - 1][i] != '1')
-			ft_map_error(map, 0);
-	i = -1;
-	while (++i < len[1])
-		if (map[i][0] != '1')
-			ft_map_error(map, 0);
-	i = -1;
-	while (++i < len[1])
-		if (map[i][len[0] - 1] != '1')
-			ft_map_error(map, 0);
-}
-
-char	**ft_make_map(char *map_file)
-{
-	int		i;
-	int		map_fd;
-	char	*temp;
-	char	**map;
-
-	map_fd = open(map_file, O_RDONLY);
-	temp = get_next_line(map_fd);
-	if (!temp)
-		ft_map_error(NULL, map_fd);
-	i = 0;
-	while (temp)
+	if (all->map->map[all->map->pos[1]][all->map->pos[0]] == 'C')
+		all->map->map[all->map->pos[1]][all->map->pos[0]] = '0';
+	all->map->collec = 0;
+	all->param->collec_ptr = mlx_xpm_file_to_image(all->param->mlx_ptr,
+			"collec.xpm", &all->img->collec_w, &all->img->collec_h);
+	i[1] = 0;
+	while (all->map->map[++i[1]])
 	{
-		if (i == 0)
-			map = (char **)malloc(sizeof(char *) * 2);
-		else
-			map = ft_alloc_to_map(map, i);
-		if (!map)
-			ft_map_error(map, map_fd);
-		map[i++] = ft_map_line_dup(temp);
-		map[i] = NULL;
-		free(temp);
-		temp = get_next_line(map_fd);
-	}
-	close(map_fd);
-	return (map);
-}
-
-char	*ft_map_line_dup(char *temp)
-{
-	int		len;
-	char	*ret;
-
-	len = (int)ft_strlen(temp);
-	if (temp[len - 1] == '\n')
-		ret = ft_substr(temp, 0, len - 1);
-	else
-		ret = ft_strdup(temp);
-	return (ret);
-}
-
-char	**ft_alloc_to_map(char **map, int size)
-{
-	int		i;
-	char	**ret;
-
-	ret = (char **)malloc(sizeof(char *) * (size + 2));
-	if (!ret)
-		return (NULL);
-	i = 0;
-	while (i < size)
-	{
-		ret[i] = ft_strdup(map[i]);
-		if (!ret[i++])
-			return (NULL);
-	}
-	while (--i >= 0)
-	{
-		free(map[i]);
-		map[i] = NULL;
-	}
-		free(map);
-	map = NULL;
-	return (ret);
-}
-
-void	ft_free_map(char **map)
-{
-	int	i;
-
-	if (map)
-	{
-		i = 0;
-		while (map[i])
+		i[0] = 0;
+		while (all->map->map[i[1]][++i[0]])
 		{
-			free(map[i]);
-			map[i++] = NULL;
+			if (all->map->map[i[1]][i[0]] == 'C')
+			{
+				mlx_put_image_to_window(all->param->mlx_ptr,
+					all->param->win_ptr, all->param->collec_ptr,
+					75 * i[0] + 2, 75 * i[1] + 2);
+				all->map->collec++;
+			}
 		}
-		free(map);
-		map = NULL;
 	}
 }
 
-void	ft_map_error(char **map, int map_fd)
+void	ft_put_ennemy(t_all *all)
 {
-	int	i;
+	int	i[2];
 
-	if (map)
+	all->param->ennemy_ptr = mlx_xpm_file_to_image(all->param->mlx_ptr,
+			"ennemy.xpm", &all->img->ennemy_w, &all->img->ennemy_h);
+	i[1] = 0;
+	while (all->map->map[++i[1]])
 	{
-		i = 0;
-		while (map[i])
+		i[0] = 0;
+		while (all->map->map[i[1]][++i[0]])
 		{
-			free(map[i]);
-			map[i++] = NULL;
+			if (all->map->map[i[1]][i[0]] == 'N')
+			{
+				mlx_put_image_to_window(all->param->mlx_ptr,
+					all->param->win_ptr, all->param->ennemy_ptr,
+					75 * i[0] + 2, 75 * i[1] + 2);
+			}
 		}
-		free(map);
-		map = NULL;
 	}
-	if (map_fd)
-		close(map_fd);
-	ft_putendl_fd("Error", 2);
-	ft_putendl_fd("Your map is invalid\nPlease refer to the map configuration and try again :)", 2);
-	exit(0);
+}
+
+void	ft_put_font_walls(t_all *all)
+{
+	int	i[2];
+
+	mlx_put_image_to_window(all->param->mlx_ptr, all->param->win_ptr,
+		all->param->font_ptr, all->map->width / 2 - all->img->font_w / 2,
+		all->map->height / 2 - all->img->font_h / 2);
+	i[1] = -1;
+	while (all->map->map[++i[1]])
+	{
+		i[0] = -1;
+		while (all->map->map[i[1]][++i[0]])
+			if (all->map->map[i[1]][i[0]] == '1')
+				mlx_put_image_to_window(all->param->mlx_ptr,
+					all->param->win_ptr, all->param->walls_ptr,
+					75 * i[0] + 2, 75 * i[1] + 2);
+	}
+}
+
+void	ft_put_exit(t_all *all)
+{
+	int	i[2];
+
+	i[1] = 0;
+	while (all->map->map[++i[1]])
+	{
+		i[0] = 0;
+		while (all->map->map[i[1]][++i[0]])
+		{
+			if (all->map->map[i[1]][i[0]] == 'E')
+			{
+				mlx_put_image_to_window(all->param->mlx_ptr,
+					all->param->win_ptr, all->param->exit_ptr,
+					75 * i[0] + 2, 75 * i[1] + 2);
+				return ;
+			}
+		}
+	}
 }
