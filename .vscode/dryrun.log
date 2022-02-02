@@ -1,10 +1,14 @@
 make --dry-run --always-make --keep-going --print-directory
 make: Entering directory `/Users/sel-mars/Desktop/42Cursus/07_so_long/07_so_long_WIP'
 gcc -Wall -Wextra -Werror    -c -o so_long_ext00.o so_long_ext00.c
+gcc -Wall -Wextra -Werror    -c -o so_long_ext01.o so_long_ext01.c
+gcc -Wall -Wextra -Werror    -c -o so_long_ext02.o so_long_ext02.c
+gcc -Wall -Wextra -Werror    -c -o so_long_ext03.o so_long_ext03.c
+gcc -Wall -Wextra -Werror    -c -o so_long_ext04.o so_long_ext04.c
 (cd libft/; make;)
 (cd mlx/; make;)
-gcc -Wall -Wextra -Werror  -c so_long_ext00.c -I so_long.h
-ar rc libso_long.a so_long_ext00.o
-gcc -Wall -Wextra -Werror  so_long.c -L./mlx/ -lmlx -framework OpenGL -framework AppKit -L./libft/ -lft -L. -lso_long -o so_long
+gcc -Wall -Wextra -Werror  -c so_long_ext00.c so_long_ext01.c so_long_ext02.c so_long_ext03.c so_long_ext04.c -I so_long.h
+ar rc libso_long.a so_long_ext00.o so_long_ext01.o so_long_ext02.o so_long_ext03.o so_long_ext04.o
+gcc -Wall -Wextra -Werror  so_long.c -L./mlx -lmlx -framework OpenGL -framework AppKit -L./libft -lft -L. -lso_long -o so_long
 make: Leaving directory `/Users/sel-mars/Desktop/42Cursus/07_so_long/07_so_long_WIP'
  

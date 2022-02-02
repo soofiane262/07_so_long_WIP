@@ -58,7 +58,7 @@ static char	*ft_strtrim_zero(void)
 
 	zeroptr = (char *)malloc(sizeof(char));
 	if (!zeroptr)
-		return (NULL);
+		return (0);
 	zeroptr[0] = '\0';
 	return (zeroptr);
 }
@@ -81,7 +81,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 		return (ft_strtrim_zero());
 	newstr = (char *)malloc((endidx - startidx + 2) * sizeof(char));
 	if (!newstr)
-		return (NULL);
+		return (0);
 	while (startidx <= endidx)
 	{
 		newstr[i] = s1[startidx];

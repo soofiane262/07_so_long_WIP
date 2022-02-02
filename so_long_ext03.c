@@ -19,14 +19,14 @@ void	ft_putmoves(t_all *all)
 	moves = ft_itoa(all->map->moves);
 	if (all->map->moves < 10)
 		mlx_string_put(all->param->mlx_ptr, all->param->win_ptr, 34, 30,
-			0x000000, moves);
+			0xFFFFFF, moves);
 	else if (all->map->moves >= 10 && all->map->moves < 100)
 		mlx_string_put(all->param->mlx_ptr, all->param->win_ptr, 30, 30,
-			0x000000, moves);
+			0xFFFFFF, moves);
 	else if (all->map->moves >= 100)
 		mlx_string_put(all->param->mlx_ptr, all->param->win_ptr, 27, 30,
-			0x000000, moves);
-	mlx_string_put(all->param->mlx_ptr, all->param->win_ptr, 20, 48, 0x000000,
+			0xFFFFFF, moves);
+	mlx_string_put(all->param->mlx_ptr, all->param->win_ptr, 20, 48, 0xFFFFFF,
 		"Moves");
 	free(moves);
 	moves = NULL;
@@ -34,7 +34,9 @@ void	ft_putmoves(t_all *all)
 
 void	ft_move_up(t_all *all)
 {
-	if (all->map->map[all->map->pos[1] - 1][all->map->pos[0]] == '1')
+	if (all->map->map[all->map->pos[1] - 1][all->map->pos[0]] == '1'
+		|| (all->map->map[all->map->pos[1] - 1][all->map->pos[0]] == 'E'
+		&& all->map->collec))
 		return ;
 	else if (all->map->map[all->map->pos[1] - 1][all->map->pos[0]] == 'N')
 	{
@@ -44,10 +46,7 @@ void	ft_move_up(t_all *all)
 	all->map->pos[1] -= 1;
 	all->map->moves++;
 	mlx_clear_window(all->param->mlx_ptr, all->param->win_ptr);
-	ft_put_font_walls(all);
-	ft_put_exit(all);
-	ft_put_collec(all);
-	ft_put_ennemy(all);
+	ft_put_all(all);
 	if (all->param->player_d == 0)
 		mlx_put_image_to_window(all->param->mlx_ptr, all->param->win_ptr,
 			all->param->player_l_ptr, all->map->pos[0] * 75,
@@ -57,11 +56,14 @@ void	ft_move_up(t_all *all)
 			all->param->player_r_ptr, all->map->pos[0] * 75,
 			all->map->pos[1] * 75);
 	ft_putmoves(all);
+
 }
 
 void	ft_move_down(t_all *all)
 {
-	if (all->map->map[all->map->pos[1] + 1][all->map->pos[0]] == '1')
+	if (all->map->map[all->map->pos[1] + 1][all->map->pos[0]] == '1'
+		|| (all->map->map[all->map->pos[1] + 1][all->map->pos[0]] == 'E'
+		&& all->map->collec))
 		return ;
 	else if (all->map->map[all->map->pos[1] + 1][all->map->pos[0]] == 'N')
 	{
@@ -85,7 +87,9 @@ void	ft_move_down(t_all *all)
 
 void	ft_move_left(t_all *all)
 {
-	if (all->map->map[all->map->pos[1]][all->map->pos[0] - 1] == '1')
+	if (all->map->map[all->map->pos[1]][all->map->pos[0] - 1] == '1'
+		|| (all->map->map[all->map->pos[1]][all->map->pos[0] - 1] == 'E'
+		&& all->map->collec))
 		return ;
 	else if (all->map->map[all->map->pos[1]][all->map->pos[0] - 1] == 'N')
 	{
@@ -104,7 +108,9 @@ void	ft_move_left(t_all *all)
 
 void	ft_move_right(t_all *all)
 {
-	if (all->map->map[all->map->pos[1]][all->map->pos[0] + 1] == '1')
+	if (all->map->map[all->map->pos[1]][all->map->pos[0] + 1] == '1'
+		|| (all->map->map[all->map->pos[1]][all->map->pos[0] + 1] == 'E'
+		&& all->map->collec))
 		return ;
 	else if (all->map->map[all->map->pos[1]][all->map->pos[0] + 1] == 'N')
 	{

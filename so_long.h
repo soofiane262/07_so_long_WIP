@@ -23,8 +23,8 @@ typedef struct s_params
 	void	*mlx_ptr;
 	void	*win_ptr;
 	void	*font_ptr;
-	void	*walls_ptr;
-	void	*exit_ptr;
+	void	*walls_ptr[21];
+	void	*exit_ptr[6];
 	void	*collec_ptr;
 	void	*ennemy_ptr;
 	void	*player_l_ptr;
@@ -37,7 +37,6 @@ typedef struct s_map
 	int		width;
 	int		height;
 	int		pos[2];
-	int		exit[2];
 	int		collec;
 	int		moves;
 }			t_map;
@@ -56,25 +55,41 @@ typedef struct s_img
 	int		ennemy_w;
 	int		ennemy_h;
 }			t_img;
+typedef struct s_exit_sprite
+{
+	t_map		*map;
+	t_params	*param;
+	int			i;
+	int			j;
+	int			exit_counter;
+}			t_exit_sprite;
 typedef struct s_all
 {
-	t_params	*param;
-	t_img		*img;
-	t_map		*map;
+	t_params			*param;
+	t_img				*img;
+	t_map				*map;
+	t_exit_sprite		*exit_sprite;
 }			t_all;
+void	ft_make_ptrs(t_all *all);
+void	ft_make_walls(t_all *all);
+void	ft_make_exits(t_all *all);
 void	ft_put_all(t_all *all);
 int		ft_destroy_key_hook(int key, t_all *all);
 void	ft_win(t_all *all);
 void	ft_win_ext(t_all *all);
 void	ft_lose(t_all *all);
 void	ft_putmoves(t_all *all);
+void	ft_put_outer_walls(t_all *all);
 void	ft_put_font_walls(t_all *all);
-void	ft_put_exit(t_all *all);
+void	ft_put_exit_closed(t_all *all);
+void	ft_put_exit_open(t_all *all);
+// void	ft_put_exit_sprite(t_all *all);
+int		ft_put_exit_sprite_1(t_exit_sprite *exit_sprite);
+void	ft_put_exit_sprite_2(t_params *param, int i, int j, int exit_counter);
 void	ft_put_collec(t_all *all);
 void	ft_put_ennemy(t_all *all);
 int		ft_destroy_x(t_all *all);
 int		ft_key_hook(int key, t_all *all);
-void	ft_exit_position(t_all *all);
 void	ft_move_up(t_all *all);
 void	ft_move_down(t_all *all);
 void	ft_move_left(t_all *all);

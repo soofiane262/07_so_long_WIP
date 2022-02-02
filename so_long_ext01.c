@@ -43,22 +43,28 @@ void	ft_check_map(t_map *map, char *map_file)
 
 void	ft_check_chars(char **map, int *len)
 {
-	int		i;
-	int		j;
-	int		p;
+	int		i[5];
 	char	*ref;
 	char	*trimmed;
 
 	ref = "01EPNC";
-	i = 0;
-	p = 0;
-	while (++i < len[1] - 1)
+	i[0] = 0;
+	i[2] = 0;
+	i[3] = 0;
+	i[4] = 0;
+	while (++i[0] < len[1] - 1)
 	{
-		j = 0;
-		while (++j < len[0] - 1)
-			if (map[i][j] == 'P')
-				p++;
-		trimmed = ft_strtrim(map[i], ref);
+		i[1] = 0;
+		while (++i[1] < len[0] - 1)
+		{
+			if (map[i[0]][i[1]] == 'P')
+				i[2]++;
+			if (map[i[0]][i[1]] == 'C')
+				i[3]++;
+			if (map[i[0]][i[1]] == 'E')
+				i[4]++;
+		}
+		trimmed = ft_strtrim(map[i[0]], ref);
 		if (trimmed[0])
 		{
 			free(trimmed);
@@ -66,8 +72,14 @@ void	ft_check_chars(char **map, int *len)
 		}
 		free(trimmed);
 	}
-	if (p != 1)
+	if (!i[2])
+		ft_map_error(map, -2, "Map doesn't contain a starting position");
+	if (i[2] > 1)
 		ft_map_error(map, -2, "Map contains more than one starting position");
+	if (!i[3])
+		ft_map_error(map, -2, "Map doesn't contain collectibles");
+	if (!i[4])
+		ft_map_error(map, -2, "Map doesn't contain an exit");
 }
 
 void	ft_check_walls(char **map, int *len)
