@@ -96,7 +96,8 @@ char	**ft_make_map(char *map_file);
 char	**ft_alloc_to_map(char **map, int map_fd, int size);
 char	*ft_map_line_dup(char *temp);
 void	ft_free_map(char **map);
-void	ft_map_error(char ***map, int map_fd, char *error);
+void	ft_map_error(char ***map, int map_fd, char *error, int t);
+void	ft_make_map_ext(char ***map, int *i, char **temp, int map_fd);
 void	ft_init(t_all *all);
 void	ft_init_integers(int *i0, int *i1, int *i2, int *i3);
 #endif

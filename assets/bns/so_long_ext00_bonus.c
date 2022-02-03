@@ -12,6 +12,14 @@
 
 #include "so_long_bonus.h"
 
+void	ft_make_map_ext(char ***map, int *i, char **temp, int map_fd)
+{
+	(*map)[(*i)++] = ft_map_line_dup((*temp));
+	(*map)[(*i)] = NULL;
+	free((*temp));
+	(*temp) = get_next_line(map_fd);
+}
+
 void	ft_put_collec(t_all *all)
 {
 	int	i[2];

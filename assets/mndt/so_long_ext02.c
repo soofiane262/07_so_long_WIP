@@ -36,13 +36,13 @@ char	**ft_alloc_to_map(char **map, int map_fd, int size)
 
 	ret = (char **)malloc(sizeof(char *) * (size + 2));
 	if (!ret)
-		ft_map_error(&map, map_fd, "Allocation error for map");
+		ft_map_error(&map, map_fd, "Allocation error for map", 1);
 	i = 0;
 	while (i < size)
 	{
 		ret[i] = ft_strdup(map[i]);
 		if (!ret[i++])
-			ft_map_error(&map, map_fd, "Allocation error for map");
+			ft_map_error(&map, map_fd, "Allocation error for map", 1);
 	}
 	while (--i >= 0)
 	{
@@ -71,11 +71,11 @@ void	ft_free_map(char **map)
 	}
 }
 
-void	ft_map_error(char ***map, int map_fd, char *error)
+void	ft_map_error(char ***map, int map_fd, char *error, int t)
 {
 	int	i;
 
-	if ((*map))
+	if (t)
 	{
 		i = 0;
 		while ((*map)[i])

@@ -18,7 +18,7 @@ void	ft_win_ext(t_all *all)
 
 	moves = ft_itoa(all->map->moves);
 	if (!moves)
-		ft_map_error(&all->map->map, -2, "Allocation error in ft_itoa");
+		ft_map_error(&all->map->map, -2, "Allocation error in ft_itoa", 1);
 	if (all->map->moves < 10)
 		mlx_string_put(all->param->mlx_ptr, all->param->win_ptr,
 			all->map->width / 2 + 60, all->map->height / 2 + 7,
