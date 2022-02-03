@@ -43,13 +43,13 @@ BNSSRCS	=	assets/bns/so_long_ext00_bonus.c assets/bns/so_long_ext01_bonus.c asse
 
 BNSOBJS	=	$(BNSSRCS:%.c=%.o)
 
-all:	$(NAME) bonus
-
 $(NAME): $(OBJS) $(PGM) $(HDFL)
 	@(cd libft/; make;)
 	@(cd mlx/; make;)
 	@$(AR) $(LIB) $(OBJS)
 	@$(CC) $(CFLAGS) $(PGM) -L./mlx -lmlx -framework OpenGL -framework AppKit -L./libft -lft -L. -lso_long -o $(NAME)
+
+all:	$(NAME) bonus
 
 bonus: $(BNSOBJS) $(BNSPGM) $(BNSHDFL)
 	@(cd libft/; make;)
