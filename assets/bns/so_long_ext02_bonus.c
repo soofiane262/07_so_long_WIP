@@ -21,6 +21,7 @@ void	ft_error(char *str)
 
 void	ft_init(t_all *all)
 {
+	all->param->hook = 0;
 	all->map->moves = 0;
 	all->map->lose = 0;
 	all->sprite->exit_counter = 0;

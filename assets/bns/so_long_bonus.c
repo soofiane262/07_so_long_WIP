@@ -42,14 +42,10 @@ void	ft_put_everything(t_all *all)
 
 int	ft_put_all(t_all *all)
 {
-	mlx_clear_window(all->param->mlx_ptr, all->param->win_ptr);
-	ft_put_outer_walls(all);
-	ft_put_font_walls(all);
-	ft_put_collec(all);
-	ft_put_ennemy(all);
-	ft_put_exit(all);
+	if (!all->param->hook)
+		return (0);
+	ft_put_everything(all);
 	ft_put_player(all);
-	ft_putmoves(all);
 	if (!all->map->collec
 		&& all->map->map[all->map->pos[1]][all->map->pos[0]] == 'E')
 		ft_win(all);
@@ -93,6 +89,8 @@ int	main(int ac, char **av)
 	ft_check_map(&map, av[1]);
 	ft_make_ptrs(&all);
 	ft_init(&all);
+	ft_put_everything(&all);
+	ft_put_player(&all);
 	mlx_loop_hook(param.mlx_ptr, ft_put_all, &all);
 	mlx_hook(param.win_ptr, 2, 0, ft_key_hook, &all);
 	mlx_hook(param.win_ptr, 17, 0, ft_destroy_x, &all);

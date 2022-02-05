@@ -34,6 +34,7 @@ typedef struct s_params
 	void	*player_r_ptr[8];
 	void	*player_l_ptr[8];
 	int		player_d;
+	int		hook;
 }			t_params;
 typedef struct s_map
 {

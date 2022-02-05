@@ -46,7 +46,8 @@ void	ft_check_char_ext01(char ***map, int i2, int i3, int i4)
 	if (!i2)
 		ft_map_error(map, -2, "Map doesn't contain a starting position", 1);
 	if (i2 > 1)
-		ft_map_error(map, -2, "Map contains more than one starting position", 1);
+		ft_map_error(map, -2, "Map contains more than one starting position",
+			1);
 	if (!i3)
 		ft_map_error(map, -2, "Map doesn't contain collectibles", 1);
 	if (!i4)

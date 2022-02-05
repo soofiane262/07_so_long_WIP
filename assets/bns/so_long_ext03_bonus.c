@@ -50,6 +50,7 @@ void	ft_move_up(t_all *all)
 	all->map->pos[1] -= 1;
 	all->map->moves++;
 	all->sprite->player_move[0] = 1;
+	all->param->hook = 1;
 }
 
 void	ft_move_down(t_all *all)
@@ -66,6 +67,7 @@ void	ft_move_down(t_all *all)
 	all->map->pos[1] += 1;
 	all->map->moves++;
 	all->sprite->player_move[2] = 1;
+	all->param->hook = 1;
 }
 
 void	ft_move_left(t_all *all)
@@ -83,6 +85,7 @@ void	ft_move_left(t_all *all)
 	all->map->moves++;
 	all->param->player_d = -1;
 	all->sprite->player_move[3] = 1;
+	all->param->hook = 1;
 }
 
 void	ft_move_right(t_all *all)
@@ -100,4 +103,5 @@ void	ft_move_right(t_all *all)
 	all->map->moves++;
 	all->param->player_d = 1;
 	all->sprite->player_move[1] = 1;
+	all->param->hook = 1;
 }
