@@ -15,10 +15,21 @@
 void	ft_make_ptrs(t_all *all)
 {
 	all->param->mlx_ptr = mlx_init();
+	if (!all->param->mlx_ptr)
+		ft_map_error(&all->map->map, -2,
+			"The mlx failed to set up the connection to the graphical system",
+			1);
 	all->param->win_ptr = mlx_new_window(all->param->mlx_ptr, all->map->width,
-			all->map->height, "so_long_bonus");
+			all->map->height, "so_long");
+	if (!all->param->win_ptr)
+		ft_map_error(&all->map->map, -2,
+			"The mlx failed to create a new window", 1);
 	all->param->font_ptr = mlx_xpm_file_to_image(all->param->mlx_ptr,
 			"img/font.xpm", &all->img->font_w, &all->img->font_h);
+	all->param->ennemy_ptr = mlx_xpm_file_to_image(all->param->mlx_ptr,
+			"img/ennemy.xpm", &all->img->ennemy_w, &all->img->ennemy_h);
+	all->param->collec_ptr = mlx_xpm_file_to_image(all->param->mlx_ptr,
+			"img/collec.xpm", &all->img->collec_w, &all->img->collec_h);
 	ft_make_walls(all);
 	ft_make_exits(all);
 	ft_make_player_ur(all);
@@ -27,6 +38,7 @@ void	ft_make_ptrs(t_all *all)
 	ft_make_player_dl(all);
 	ft_make_player_r(all);
 	ft_make_player_l(all);
+	ft_check_mlx_imgs(all);
 }
 
 void	ft_put_everything(t_all *all)

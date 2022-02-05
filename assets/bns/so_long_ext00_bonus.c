@@ -27,8 +27,6 @@ void	ft_put_collec(t_all *all)
 	if (all->map->map[all->map->pos[1]][all->map->pos[0]] == 'C')
 		all->map->map[all->map->pos[1]][all->map->pos[0]] = '0';
 	all->map->collec = 0;
-	all->param->collec_ptr = mlx_xpm_file_to_image(all->param->mlx_ptr,
-			"img/collec.xpm", &all->img->collec_w, &all->img->collec_h);
 	i[1] = 0;
 	while (all->map->map[++i[1]])
 	{
@@ -50,8 +48,6 @@ void	ft_put_ennemy(t_all *all)
 {
 	int	i[2];
 
-	all->param->ennemy_ptr = mlx_xpm_file_to_image(all->param->mlx_ptr,
-			"img/ennemy.xpm", &all->img->ennemy_w, &all->img->ennemy_h);
 	i[1] = 0;
 	while (all->map->map[++i[1]])
 	{

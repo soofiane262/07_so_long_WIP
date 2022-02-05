@@ -12,6 +12,32 @@
 
 #include "so_long_bonus.h"
 
+void	ft_check_mlx_imgs(t_all *all)
+{
+	int	i;
+
+	if (!all->param->ennemy_ptr || !all->param->collec_ptr
+		|| !all->param->font_ptr)
+	{
+		ft_putendl_fd("Error", 2);
+		ft_putendl_fd("The mlx failed to make an image pointer", 2);
+		ft_destroy_x(all);
+	}
+	i = -1;
+	while (++i <= 7)
+	{
+		if (!all->param->player_ur_ptr[i] || !all->param->player_ul_ptr[i]
+			|| !all->param->player_dr_ptr[i] || !all->param->player_dl_ptr[i]
+			|| !all->param->player_r_ptr[i] || !all->param->player_l_ptr[i])
+		{
+			ft_putendl_fd("Error", 2);
+			ft_putendl_fd("The mlx failed to make an image pointer", 2);
+			ft_destroy_x(all);
+		}
+	}
+	ft_check_mlx_imgs_ext(all);
+}
+
 void	ft_make_walls(t_all *all)
 {
 	int		i;

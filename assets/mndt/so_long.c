@@ -12,16 +12,48 @@
 
 #include "so_long.h"
 
+void	ft_check_mlx_imgs(t_all *all)
+{
+	int	i;
+
+	if (!all->param->font_ptr || !all->param->collec_ptr
+		|| !all->param->player_r_ptr || !all->param->player_l_ptr
+		|| !all->param->exit_ptr[0] || !all->param->exit_ptr[1])
+	{
+		ft_putendl_fd("Error", 2);
+		ft_putendl_fd("The mlx failed to make an image pointer", 2);
+		ft_destroy_x(all);
+	}
+	i = -1;
+	while (++i <= 20)
+	{
+		if (!all->param->walls_ptr[i])
+		{
+			ft_putendl_fd("Error", 2);
+			ft_putendl_fd("The mlx failed to make an image pointer", 2);
+			ft_destroy_x(all);
+		}
+	}
+}
+
 void	ft_make_ptrs(t_all *all)
 {
 	all->param->mlx_ptr = mlx_init();
+	if (!all->param->mlx_ptr)
+		ft_map_error(&all->map->map, -2,
+			"The mlx failed to set up the connection to the graphical system",
+			1);
 	all->param->win_ptr = mlx_new_window(all->param->mlx_ptr, all->map->width,
 			all->map->height, "so_long");
+	if (!all->param->win_ptr)
+		ft_map_error(&all->map->map, -2,
+			"The mlx failed to create a new window", 1);
 	all->param->font_ptr = mlx_xpm_file_to_image(all->param->mlx_ptr,
 			"img/font.xpm", &all->img->font_w, &all->img->font_h);
 	ft_make_walls(all);
 	ft_make_exits(all);
 	ft_make_player(all);
+	ft_check_mlx_imgs(all);
 }
 
 int	ft_put_all(t_all *all)
